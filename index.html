@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Yizhi | Java 全栈开发 · AI Agent</title>
+    <meta
+      name="description"
+      content="软件工程本科在读，主攻 Java 全栈开发，具备 AI Agent、LLM、RAG、Multi-Agent 应用工程实践经验。"
+    />
+    <meta name="author" content="Yizhi" />
+    <meta
+      name="keywords"
+      content="Java,Spring Boot,Vue3,全栈开发,AI Agent,LLM,RAG,Multi-Agent,LangChain4j,技术作品集"
+    />
+    <!-- 标签页图标直接用头像（public/avatar.png），和导航栏 / 页脚是同一个文件，
+         换头像时三处一起变，不用再单独维护一份 favicon。
+         尺寸 150×150，标签页按 16/32px 缩放显示，高 DPI 屏也够。
+         apple-touch-icon：iOS 加书签 / 添加到主屏时用同一张。 -->
+    <link rel="icon" type="image/png" href="%BASE_URL%avatar.png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%avatar.png" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yizhi" />
+    <meta property="og:title" content="Yizhi | Java 全栈开发 · AI Agent" />
+    <meta
+      property="og:description"
+      content="软件工程本科在读，主攻 Java 全栈开发，具备 AI Agent、LLM、RAG、Multi-Agent 应用工程实践经验。"
+    />
+    <meta property="og:image" content="%BASE_URL%og-image.svg" />
+    <!-- 部署后把下面这行替换成你的真实域名，OG 图才能被正确抓取 -->
+    <meta property="og:url" content="TODO_SITE_URL" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Yizhi | Java 全栈开发 · AI Agent" />
+    <meta
+      name="twitter:description"
+      content="软件工程本科在读，主攻 Java 全栈开发，具备 AI Agent、LLM、RAG、Multi-Agent 应用工程实践经验。"
+    />
+    <meta name="twitter:image" content="%BASE_URL%og-image.svg" />
+
+    <script>
+      // 1) 主题初始化：在首屏样式生效前套用，避免暗色模式闪白
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('yizhi-theme')
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+            document.documentElement.classList.add('dark')
+          }
+        } catch (e) {
+          /* localStorage 不可用时静默降级为浅色 */
+        }
+      })()
+
+      // 2) GitHub Pages SPA 回退：把 404.html 带回来的 redirect 参数还原成真实路径
+      ;(function () {
+        var match = /[?&]redirect=([^&]*)/.exec(window.location.search)
+        if (!match) return
+        var base = '%BASE_URL%'
+        var prefix = base.charAt(base.length - 1) === '/' ? base.slice(0, -1) : base
+        window.history.replaceState(null, '', prefix + decodeURIComponent(match[1]))
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+    @apply dark:bg-ink-950 dark:text-slate-100;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 键盘可达性：统一 focus ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500/50 ring-offset-2 ring-offset-white dark:ring-offset-ink-950;
+  }
+
+  ::selection {
+    @apply bg-brand-500/20;
+  }
+
+  /* 细滚动条，避免破坏极简风格 */
+  @media (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      @apply rounded-full bg-slate-300/70 dark:bg-white/10;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      @apply bg-slate-400/80 dark:bg-white/20;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Components                                                          */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  /* 页面统一内容宽度：桌面最大 1200px */
+  .container-page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-6 lg:px-8;
+  }
+
+  /* 卡片：细边框 + 极轻阴影 */
+  .card {
+    @apply rounded-card border border-slate-200 bg-white shadow-card;
+    @apply dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none;
+  }
+
+  .card-hover {
+    @apply transition duration-200 ease-out;
+  }
+  .card-hover:hover {
+    @apply -translate-y-0.5 border-slate-300 shadow-lift;
+    @apply dark:border-white/20 dark:bg-white/[0.05];
+  }
+
+  /* 细分隔线 */
+  .hairline {
+    @apply border-slate-200 dark:border-white/10;
+  }
+
+  /* 次级文字 */
+  .text-muted {
+    @apply text-slate-600 dark:text-slate-400;
+  }
+  .text-subtle {
+    @apply text-slate-500 dark:text-slate-500;
+  }
+
+  /* 等宽小标签，用于架构图 / 事件名 */
+  .code-chip {
+    @apply inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs text-slate-700;
+    @apply dark:border-white/10 dark:bg-white/5 dark:text-slate-300;
+  }
+
+  /* 页面标题区 */
+  .page-title {
+    @apply text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white;
+  }
+
+  .section-title {
+    @apply text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl dark:text-white;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* 作品封面框                                                        */
+  /* ---------------------------------------------------------------- */
+
+  /* 有图时就是干净的圆角图片容器；没图时靠 .cover-hatch 撑出质感，
+     不会出现「图片挂了」那种破图感 */
+  .cover-frame {
+    @apply relative overflow-hidden rounded-card border border-slate-200 bg-slate-50/80;
+    @apply dark:border-white/10 dark:bg-white/[0.03];
+  }
+
+  /* 斜纹底：占位状态下的视觉填充 */
+  .cover-hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgb(15 23 42 / 0.04) 0,
+      rgb(15 23 42 / 0.04) 1px,
+      transparent 1px,
+      transparent 11px
+    );
+  }
+  .dark .cover-hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgb(255 255 255 / 0.05) 0,
+      rgb(255 255 255 / 0.05) 1px,
+      transparent 1px,
+      transparent 11px
+    );
+  }
+
+  /* 装饰封面：还没有真实截图时的封面方案。
+     它不是要假装成截图——用项目类型的色系 + 细网格 + 类型图标，
+     看上去就是一张插画式封面，比一片斜纹空白强，也不构成欺骗。
+     有真图之后 CoverFrame 直接走 <img>，这套样式不会触发。
+
+     --decor-hue 存 rgb 分量（不带 rgb()），方便下面按需调透明度。 */
+  .cover-decor {
+    --decor-hue: 99 102 241;
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(var(--decor-hue) / 0.1);
+    background-image:
+      radial-gradient(125% 95% at 50% 0%, rgb(var(--decor-hue) / 0.3) 0%, transparent 64%),
+      linear-gradient(to right, rgb(15 23 42 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(15 23 42 / 0.055) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      22px 22px,
+      22px 22px;
+  }
+
+  .dark .cover-decor {
+    background-color: rgb(var(--decor-hue) / 0.16);
+    background-image:
+      radial-gradient(125% 95% at 50% 0%, rgb(var(--decor-hue) / 0.34) 0%, transparent 64%),
+      linear-gradient(to right, rgb(255 255 255 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+  }
+
+  /* 类型 -> 色相不在 CSS 里写死，由 CoverFrame 按项目类型内联注入。
+     原因：Tailwind 会对 @layer components 里的自定义类做 tree-shaking，
+     只保留在源码里字面出现过的类名。用 `cover-decor--${tone}` 拼出来的
+     类名扫不到，会被整条删掉——所以色值走内联变量而不是动态类名。 */
+
+  /* 装饰封面上的图标容器：统一取当前色相 */
+  .cover-decor-accent {
+    color: rgb(var(--decor-hue));
+    border: 1px solid rgb(var(--decor-hue) / 0.3);
+    background-color: rgb(var(--decor-hue) / 0.14);
+  }
+
+  /* 组件序号：case study 章节编号 */
+  .step-index {
+    @apply mr-2 font-mono text-sm font-normal text-brand-600 dark:text-brand-400;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* 首页项目流：右侧上下流动的项目卡片                                  */
+  /* ---------------------------------------------------------------- */
+
+  /* 视口：单列 + 上下渐隐。
+     渐隐是「流动」感成立的关键——卡片从底部淡入、往顶部淡出，
+     不会出现硬生生被切断的边。 */
+  .stream-viewport {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    height: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 7%,
+      #000 93%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 7%,
+      #000 93%,
+      transparent 100%
+    );
+  }
+
+  .stream-col {
+    overflow: hidden;
+  }
+
+  /* 定位层：作品目录点了某个项目之后，在这里做像素补偿把目标卡片挪到视口中央。
+     它和 track 是两层不同的元素——track 的 transform 被循环动画完全占着，
+     定位只能放到外面这一层来，两边互不打架。
+     带过渡，所以点标签看到的是「滑过去」；取消选中时它过渡回 0，内容重新对齐循环轨道。 */
+  .stream-seek {
+    transform: translateY(var(--stream-seek, 0px));
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  /* 轨道：里面固定放两份等高的内容，位移一半即可无缝衔接 */
+  .stream-track {
+    display: flex;
+    flex-direction: column;
+    animation: stream-up var(--stream-duration, 48s) linear infinite;
+    will-change: transform;
+  }
+
+  .stream-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 悬停暂停：让人来得及点进某一个项目 */
+  .stream-viewport:hover .stream-track {
+    animation-play-state: paused;
+  }
+
+  /* 目录点了某个项目之后：选中的那张留下，其余淡出，视线不会被旁边的卡带走。
+     只写 opacity 就够了 —— 卡片自带的 .card-hover 里 transition 已经含 opacity。 */
+  .stream-track[data-active] .stream-group > a {
+    opacity: 0.4;
+  }
+  .stream-track[data-active] .stream-group > a[data-selected],
+  .stream-track[data-active] .stream-group > a:hover {
+    opacity: 1;
+  }
+}
+
+@keyframes stream-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+
+@layer utilities {
+  /* 横向滚动容器（架构图在移动端可横向滚动） */
+  .scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .scroll-x::-webkit-scrollbar {
+    height: 6px;
+  }
+  .scroll-x::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300 dark:bg-white/15;
+  }
+
+  /* 网格底纹：Hero 背景，非常克制 */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(15 23 42 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(15 23 42 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .dark .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  }
+
+  /* 顶部渐隐遮罩，让网格自然收边 */
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 滚动 reveal（配合 v-reveal 指令）                                     */
+/* ------------------------------------------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* 无障碍：尊重系统「减少动态效果」偏好                                   */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* 项目流：直接静止。
+     注意必须显式 animation: none —— 下面那条全局规则会把动画瞬间跑完，
+     那样流会停在 translateY(-50%) 的位置，看起来像内容被顶掉了。
+     定位层（.stream-seek）不受影响：它本来就是像素补偿，动画停了照样能把卡片挪到中间，
+     只是过渡被全局规则压成瞬时。 */
+  .stream-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  /* 复制出来用于无缝衔接的那一份，静止时没有存在意义 */
+  .stream-group[aria-hidden='true'] {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,70 @@
+name: Deploy to GitHub Pages
+
+# 触发条件：
+# 1. 推送到 main 分支时自动构建并部署
+# 2. 也可以在 Actions 页面手动触发（workflow_dispatch）
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# GitHub Pages 官方部署方式（OIDC，不需要额外配置 token）
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署任务，避免并发覆盖
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          # base 路径的取值顺序：
+          # 1. 如果你在 Settings → Secrets and variables → Actions → Variables 里定义了 BASE_PATH，就用它
+          #    （绑定自定义域名时把 BASE_PATH 设为 "/"）
+          # 2. 否则自动判断：仓库名为 <用户名>.github.io → "/"，其余项目仓库 → "/<仓库名>/"
+          # 这样无论仓库叫什么名字、有没有自定义域名，都不需要手改 vite.config.ts。
+          VITE_BASE_PATH: ${{ vars.BASE_PATH != '' && vars.BASE_PATH || (github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name)) }}
+          # 可选：定义 SITE_URL 变量（例如 https://your-domain.com）用于生成 canonical / og:url。
+          # 不配置也能正常构建。
+          VITE_SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

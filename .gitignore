@@ -1,0 +1,44 @@
+# 依赖
+node_modules
+
+# 构建产物
+dist
+dist-ssr
+
+# 本地环境变量
+.env
+.env.local
+.env.*.local
+
+# 编辑器 / 系统
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# 临时文件
+.cache
+.temp
+*.local
+
+# 本地工作目录：AI 助手的记忆（开发日志、本机绝对路径）、验收脚本与截图产物
+#
+# ⚠️ 整个目录都不进仓库，别只挡 tools/out/。
+#    memory/ 里是逐日工作笔记与项目策略，还写着本机路径（C:/Users/<用户名>）；
+#    tools/out/ 里有 Chrome profile（几千个文件 + 登录数据）。
+#    它虽然叫 ".workbuddy"（不像 node_modules 那样一看就是缓存）但确实是本地唯一一份，
+#    删不得——用 gitignore 挡住公开，不删文件本身。
+.workbuddy/

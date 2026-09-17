@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Yizhi | Java 全栈开发 · AI Agent">
+  <defs>
+    <linearGradient id="softBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f4f5f9" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#softBg)" />
+
+  <!-- 细网格底纹，保持工程感 -->
+  <g stroke="#e2e5ee" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200" />
+    <path d="M120 0v630M300 0v630M480 0v630M660 0v630M840 0v630M1020 0v630" />
+  </g>
+
+  <rect x="72" y="72" width="1056" height="486" rx="18" fill="#ffffff" stroke="#d9dde8" stroke-width="2" />
+
+  <rect x="112" y="116" width="52" height="52" rx="12" fill="#4f46e5" />
+  <text x="138" y="151" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">Y</text>
+
+  <text x="184" y="152" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="700" fill="#0f172a">Yizhi</text>
+
+  <text x="112" y="268" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="52" font-weight="700" fill="#0f172a">
+    用 Java 构建业务系统，
+  </text>
+  <text x="112" y="336" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="52" font-weight="700" fill="#4f46e5">
+    用 Agent 探索 AI 应用。
+  </text>
+
+  <text x="112" y="404" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="25" fill="#475569">
+    Java 全栈开发 · AI Agent 应用开发 · Software Engineering Student
+  </text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="21" fill="#334155">
+    <rect x="112" y="446" width="196" height="46" rx="23" fill="#f1f2f7" stroke="#dfe2ec" />
+    <text x="210" y="476" text-anchor="middle">Spring Boot</text>
+
+    <rect x="326" y="446" width="130" height="46" rx="23" fill="#f1f2f7" stroke="#dfe2ec" />
+    <text x="391" y="476" text-anchor="middle">Vue 3</text>
+
+    <rect x="474" y="446" width="118" height="46" rx="23" fill="#f1f2f7" stroke="#dfe2ec" />
+    <text x="533" y="476" text-anchor="middle">MySQL</text>
+
+    <rect x="610" y="446" width="126" height="46" rx="23" fill="#eef2ff" stroke="#c7d2fe" />
+    <text x="673" y="476" text-anchor="middle" fill="#4338ca">LLM</text>
+
+    <rect x="754" y="446" width="126" height="46" rx="23" fill="#eef2ff" stroke="#c7d2fe" />
+    <text x="817" y="476" text-anchor="middle" fill="#4338ca">RAG</text>
+
+    <rect x="898" y="446" width="190" height="46" rx="23" fill="#eef2ff" stroke="#c7d2fe" />
+    <text x="993" y="476" text-anchor="middle" fill="#4338ca">Multi-Agent</text>
+  </g>
+
+  <text x="112" y="536" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="19" fill="#94a3b8">
+    提示：这是占位 OG 图（public/og-image.svg）。替换成 1200×630 的 PNG 效果更好。
+  </text>
+</svg>
