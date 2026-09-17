@@ -39,8 +39,10 @@ export function useSeo(options: SeoOptions = {}) {
   setMeta('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle)
   setMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
 
-  // canonical / og:url 只在配置了真实站点地址时才写，避免生成假域名
-  const siteUrl = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim()
+  // canonical / og:url 只在配置了真实站点地址时才写，避免生成假域名。
+  // 地址来自构建期注入（vite.config.ts 的 __SITE_URL__），和 index.html 里那份静态 meta 同源 ——
+  // 静态那份是给不跑 JS 的社交爬虫看的，这份是切路由时给 JS 爬虫看的。
+  const siteUrl = __SITE_URL__
   if (siteUrl && isRealUrl(siteUrl) && options.path) {
     const url = `${siteUrl.replace(/\/$/, '')}${options.path}`
     let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')

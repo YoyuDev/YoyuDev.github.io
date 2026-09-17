@@ -32,7 +32,9 @@
       content="软件工程本科在读，主攻 Java 全栈开发，具备 AI Agent、LLM、RAG、Multi-Agent 应用工程实践经验。"
     />
     <meta property="og:image" content="%BASE_URL%og-image.svg" />
-    <!-- 部署后把下面这行替换成你的真实域名，OG 图才能被正确抓取 -->
+    <!-- og:url 由 vite 在构建期替换成真实站点地址（见 vite.config.ts 的 absoluteSiteMeta）：
+         微信 / QQ 的爬虫不执行 JS，读的就是这份原始 HTML，运行时改 DOM 对它们没用。
+         构建时拿不到地址就把整条删掉，绝不把占位符发出去。 -->
     <meta property="og:url" content="TODO_SITE_URL" />
 
     <!-- Twitter Card -->

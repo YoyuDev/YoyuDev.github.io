@@ -44,8 +44,10 @@ jobs:
           # 2. 否则自动判断：仓库名为 <用户名>.github.io → "/"，其余项目仓库 → "/<仓库名>/"
           # 这样无论仓库叫什么名字、有没有自定义域名，都不需要手改 vite.config.ts。
           VITE_BASE_PATH: ${{ vars.BASE_PATH != '' && vars.BASE_PATH || (github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name)) }}
-          # 可选：定义 SITE_URL 变量（例如 https://your-domain.com）用于生成 canonical / og:url。
-          # 不配置也能正常构建。
+          # 可选：显式指定站点地址（绑自定义域名、或部署到 GitHub Pages 以外时才需要）。
+          # 不设也能跑：vite.config.ts 会按下面 Actions 自动注入的 GITHUB_REPOSITORY 推导出
+          # https://<owner>.github.io[/<repo>]/，在构建期写进 index.html 的 og:url / canonical。
+          # 必须是构建期写 —— 微信 / QQ 的爬虫不执行 JS，运行时改 DOM 它们看不到。
           VITE_SITE_URL: ${{ vars.SITE_URL }}
         run: npm run build
 

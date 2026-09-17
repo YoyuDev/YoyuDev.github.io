@@ -324,7 +324,7 @@ export const featuredPosts: BlogPost[] = [
 | 位置 | 当前值 | 说明 |
 | --- | --- | --- |
 | **所有项目的作品封面** | 占位框 | ★ **最该优先补的**，见上方「作品封面怎么加」 |
-| `index.html` → `og:url` | `TODO_SITE_URL` | 不用手改——部署时设 `SITE_URL` 变量会自动填，见「部署到 GitHub Pages」第 5 步 |
+| `index.html` → `og:url` | 构建期自动填 | 不用手改——构建时按 `GITHUB_REPOSITORY` 推导出真实站点地址；绑自定义域名时设 `SITE_URL` 变量覆盖，见「部署到 GitHub Pages」第 5 步 |
 | `src/data/projects.ts` → PianoAgent 的 `NPM` 链接 | `TODO_NPM_URL` | npm 包地址 |
 | `src/data/openSource.ts` → PianoAgent 的 `NPM` 链接 | `TODO_NPM_URL` | 同上 |
 | `src/data/blog.ts` → `featuredPosts` | `TODO_ARTICLE_TITLE_1..3` / `TODO_ARTICLE_URL` | 代表文章标题与链接 |
@@ -399,17 +399,30 @@ https://<用户名>.github.io/<仓库名>/
 
 > **base 路径是自动算的**：仓库名不叫 `<用户名>.github.io` 时会自动用 `/<仓库名>/`，叫 `<用户名>.github.io` 时自动用 `/`。所以仓库叫什么都不用手改配置。
 
-### 第 5 步：把站点地址填上（建议）
+### 第 5 步：站点地址（默认不用管）
 
-不填也能跑，但 canonical 与 `og:url`（分享到微信 / 群聊时的链接预览）会一直是占位的 `TODO_SITE_URL`。
+**正常部署不用做任何事**。构建时会按 Actions 自动注入的 `GITHUB_REPOSITORY` 推导出站点地址，写进
+`og:url` / `og:image` / `canonical`：
+
+| 仓库名 | 推导出的地址 |
+| --- | --- |
+| `<用户名>.github.io` | `https://<用户名>.github.io/` |
+| `<仓库名>` | `https://<用户名>.github.io/<仓库名>/` |
+
+> ⚠️ 这几个 meta 必须**在构建期**写进 HTML —— 微信、QQ 的爬虫**不执行 JS**，只在运行时改 DOM
+> 是没用的。所以本地构建（拿不到 `GITHUB_REPOSITORY`）时 `og:url` 会被整条删掉，
+> 宁可不写也不发一个假地址。想在本机复现线上的产物：
+> `GITHUB_REPOSITORY=用户名/仓库名 npm run build`（PowerShell 用 `$env:GITHUB_REPOSITORY="用户名/仓库名"`）。
+
+**只有这两种情况需要手动指定**（部署到别处 / 绑了自定义域名）：
 
 仓库 **Settings → Secrets and variables → Actions → Variables** → **New repository variable**：
 
 | Name | Value |
 | --- | --- |
-| `SITE_URL` | `https://<用户名>.github.io/<仓库名>/`（绑了域名就填域名） |
+| `SITE_URL` | 完整地址，如 `https://你的域名` |
 
-加完回 **Actions** 重跑一次部署（选最近那次 run → **Re-run all jobs**）即可生效。
+设完回 **Actions** 重跑一次部署（选最近那次 run → **Re-run all jobs**）。显式变量优先级高于自动推导。
 
 ### 第 6 步（可选）：绑定自定义域名
 
