@@ -18,7 +18,7 @@ export const projects: Project[] = [
   {
     slug: 'beiqi-care',
     name: '陪护小程序',
-    shortName: '陪护',
+    shortName: '陪护小程序',
     subtitle: '微信陪护服务预约平台',
     tagline: '从需求分析到上线运营的完整商用交付，独立负责全流程。',
     type: 'commercial',
